@@ -1,8 +1,8 @@
 package com.example.shopinglist.domain
 
-data class ShopItem(
+class ShopItem (
     val id: Int,
-    val name: String,
+    val text: String,
     val count: Int,
     val enable: Boolean
 )

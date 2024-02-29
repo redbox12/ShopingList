@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ShopingList</string>
+    <string name="task_name">Купить молоко</string>
+    <string name="add_new_shop_item">Add new shop item</string>
 </resources>

@@ -10,7 +10,7 @@ import com.example.shopinglist.domain.ShopItem
 class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemCallback()) {
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
-    //var onShopItemClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
@@ -35,18 +35,15 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemCallba
             true
         }
 
-//        shopItemViewHolder.view.setOnClickListener {
-//            onShopItemClickListener?.invoke(shopItem)
-//        }
-
-
+        shopItemViewHolder.view.setOnClickListener {
+            onShopItemClickListener?.invoke(shopItem)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
         val shopItem = getItem(position)
         return if (shopItem.enable) ENABLE_VIEW else DISABLE_VIEW
     }
-
 
     companion object {
         const val ENABLE_VIEW = 100

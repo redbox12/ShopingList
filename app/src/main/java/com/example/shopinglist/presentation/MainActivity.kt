@@ -3,37 +3,53 @@ package com.example.shopinglist.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.R
+import com.example.shopinglist.presentation.viewModel.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
-    
+    private lateinit var buttonAddShopItem: FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.listItem.observe(this){
+        viewModel.listItem.observe(this) {
             shopListAdapter.submitList(it)
+        }
+
+        buttonAddShopItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAddShopItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddShopItem(this)
+            startActivity(intent)
         }
     }
 
-   private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         val rvList = findViewById<RecyclerView>(R.id.rv_shop_item)
         shopListAdapter = ShopListAdapter()
-        with(rvList){
+        with(rvList) {
             adapter = shopListAdapter
-            recycledViewPool.setMaxRecycledViews(ShopListAdapter.ENABLE_VIEW, ShopListAdapter.MAX_POOL_SIZE)
-            recycledViewPool.setMaxRecycledViews(ShopListAdapter.DISABLE_VIEW, ShopListAdapter.MAX_POOL_SIZE)
+            recycledViewPool.setMaxRecycledViews(
+                ShopListAdapter.ENABLE_VIEW,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
+            recycledViewPool.setMaxRecycledViews(
+                ShopListAdapter.DISABLE_VIEW,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
         }
         setupClickLongListener()
-      //  setupClickListner()
         setupSwipeListner(rvList)
+        setupClickListner()
     }
 
     private fun setupSwipeListner(rvList: RecyclerView?) {
@@ -60,19 +76,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupClickListner() {
-//        shopListAdapter.onShopItemClickListener = {
-//            Log.d("Click", it.toString())
-//            viewModel.changeShopItem(it)
-//        }
-
+        shopListAdapter.onShopItemClickListener = {
+            val intent = ShopItemActivity.newIntentEditShopItem(this, it.id)
+            startActivity(intent)
+        }
     }
 
     private fun setupClickLongListener() {
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeShopItem(it)
-            //viewModel.removeShopItem(it)
             Log.d("ClickLong", it.toString())
         }
     }
-
 }

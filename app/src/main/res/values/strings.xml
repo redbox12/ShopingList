@@ -2,4 +2,10 @@
     <string name="app_name">ShopingList</string>
     <string name="task_name">Купить молоко</string>
     <string name="add_new_shop_item">Add new shop item</string>
+    <string name="save_button">Сохранить</string>
+    <string name="count_hint">Count:</string>
+    <string name="name_hint">Name:</string>
+    <string name="error_text">Invalide name</string>
+    <string name="error_count">Invalide count</string>
+
 </resources>
